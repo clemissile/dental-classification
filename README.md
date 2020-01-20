@@ -7,6 +7,8 @@ Ce projet prendra la forme d'une interface web, sur laquelle le praticien pourra
 
 Projet annuel de Master 2, réalisé par Clément GANIVET et Yohann JACQUIER, supervisé par Monsieur François RIOULT.
 
+Réalisé avec le framework Symfony (version 4).
+
 ## Installer les dépendances du projet
 ```
 composer install
