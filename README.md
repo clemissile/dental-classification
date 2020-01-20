@@ -5,3 +5,13 @@ Le domaine d'application de ce projet est le diagnostic dentaire : un dentiste d
 Ce projet prendra la forme d'une interface web, sur laquelle le praticien pourra naviguer au travers d'un dashboard.
 
 Projet annuel de Master 2, réalisé par Clément GANIVET et Yohann JACQUIER, supervisé par Monsieur François RIOULT.
+
+## Installer les dépendances du projet
+```
+composer install
+```
+
+## Lancer le serveur de développement local
+```
+php bin/console serve:run
+```
