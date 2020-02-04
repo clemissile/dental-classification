@@ -3,16 +3,38 @@
 {% block title %}Liste{% endblock %}
 
 {% block body %}
-    <div class="container text-center">
-        <h3>Liste des diagnostics</h3>
-        <div class="row ">
-            <div class="col-md-12">
-                <ul>
-                    {% for diag in diagnoses %}
-                        <a href="{{ path('list_show', { 'id': diag.id }) }}"><li>{{ diag.patientName }} <img src="{{ diag.image }}" /></li></a>
-                    {% endfor %}
-                </ul>
+    <div class="container text-center my-2">
+        <h1>Liste des diagnostics</h1>
+
+        <!-- Barre de recherche -->
+        <div class="row my-3 mx-5">
+            <div class="input-group md-form form-sm form-2 pl-0">
+                <input class="form-control my-0 py-1 lime-border" type="text" placeholder="Rechercher un patient, un diagnostic" aria-label="Search">
+                <div class="input-group-append">
+                    <span class="input-group-text lime lighten-2" id="basic-text1">
+                        <i class="fas fa-search text-grey" aria-hidden="true"></i>
+                    </span>
+                </div>
             </div>
+        </div>
+
+        <!-- Résultats de la recherche (par défaut, tout) -->
+        <div class="row my-3">
+            {% for diag in diagnoses %}
+                <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <img class="card-img-top" src="{{ asset(diag.image) }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ diag.diagnoseType }}</h5>
+                                <p class="card-text">{{ diag.patientName }}, {{ diag.patientAge }} ans</p>
+                                <a href="{{ path('list_show', { 'id': diag.id }) }}" class="btn btn-outline-secondary">Voir les détails</a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">{{ diag.date }}</small>
+                            </div>
+                        </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

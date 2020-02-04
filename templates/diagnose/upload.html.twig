@@ -3,14 +3,150 @@
 {% block title %}Upload{% endblock %}
 
 {% block body %}
-    <div class="container text-center">
+    <div class="container text-center mt-3">
         <h3>Ajout d'un nouveau diagnostic</h3>
-        <div class="row ">
-            <div class="col-md-12">
+        <div class="row my-3">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
                 {{ form_start(form) }}
                     {{ form_errors(form) }}
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form_row(form.patientName, {
+                                label_attr: {
+                                    for: 'inputName'
+                                },
+                                attr: {
+                                    id: 'inputName',
+                                    class: 'form-control'
+                                }
+                            }) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form_row(form.patientAge, {
+                                label_attr: {
+                                    for: 'inputAge'
+                                },
+                                attr: {
+                                    id: 'inputAge',
+                                    class: 'form-control'
+                                }
+                            }) }}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="custom-file">
+                            {{ form_row(form.image, {
+                                label_attr: {
+                                    for: 'inputImage',
+                                    id: 'imgLabel',
+                                    class: 'custom-file-label'
+                                },
+                                attr: {
+                                    id: 'inputImage',
+                                    class: 'custom-file-input'
+                                }
+                            }) }}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form_row(form.date, {
+                                label_attr: {
+                                    for: 'inputDate'
+                                },
+                                attr: {
+                                    id: 'inputDate',
+                                    class: 'form-control'
+                                }
+                            }) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form_row(form.dentistName, {
+                                label_attr: {
+                                    for: 'inputDName'
+                                },
+                                attr: {
+                                    id: 'inputDName',
+                                    class: 'form-control'
+                                }
+                            }) }}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            {{ form_row(form.diagnoseType, {
+                                label_attr: {
+                                    for: 'inputType'
+                                },
+                                attr: {
+                                    id: 'inputType',
+                                    class: 'form-control'
+                                }
+                            }) }}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            {{ form_row(form.observations, {
+                                label_attr: {
+                                    for: 'inputObs'
+                                },
+                                attr: {
+                                    id: 'inputObs',
+                                    class: 'form-control'
+                                }
+                            }) }}
+                        </div>
+                    </div>
+
+                    {{ form_row(form.save, {
+                        attr: {
+                            class: 'btn btn-secondary mt-3'
+                        }
+                    }) }}
+
                 {{ form_end(form) }}
             </div>
+            <div class="col-md-2"></div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $.datepicker.regional['fr'] = {clearText: 'Effacer', clearStatus: '',
+            closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
+            prevText: '<Préc', prevStatus: 'Voir le mois précédent',
+            nextText: 'Suiv>', nextStatus: 'Voir le mois suivant',
+            currentText: 'Courant', currentStatus: 'Voir le mois courant',
+            monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin',
+                'Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+            monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun',
+                'Jul','Aoû','Sep','Oct','Nov','Déc'],
+            monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
+            weekHeader: 'Sm', weekStatus: '',
+            dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+            dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+            dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+            dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
+            dateFormat: 'dd/mm/yy', firstDay: 0,
+            initStatus: 'Choisir la date', isRTL: false};
+        $.datepicker.setDefaults($.datepicker.regional['fr']);
+
+        $('#diagnose_date').datepicker();
+
+        $('#diagnose_image').on('change',function(){
+            //get the file name
+            var fileName = $(this).val();
+            //replace the "Choose a file" label
+            fileName = fileName.replace("C:\\fakepath\\", "");
+            $('#imgLabel').html(fileName);
+        });
+    </script>
 {% endblock %}
