@@ -18,3 +18,17 @@ composer install
 ```
 php bin/console serve:run
 ```
+
+## Créer la base de données
+```
+CREATE TABLE `DIAG` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `DIAG_DATE` varchar(255) DEFAULT NULL,
+  `DIAG_PATIENT_NAME` varchar(255) DEFAULT NULL,
+  `DIAG_PATIENT_AGE` int(11) DEFAULT NULL,
+  `DIAG_IMAGE` varchar(255) DEFAULT NULL,
+  `DIAG_DENTIST_NAME` varchar(255) DEFAULT NULL,
+  `DIAG_OBS` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+)
+```
