@@ -21,7 +21,7 @@ php bin/console serve:run
 
 ## Créer la base de données
 ```
-CREATE TABLE `DIAG` (
+CREATE TABLE `DIAGNOSE` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `DIAG_DATE` varchar(255) DEFAULT NULL,
   `DIAG_PATIENT_NAME` varchar(255) DEFAULT NULL,
