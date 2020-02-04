@@ -4,8 +4,8 @@ index:
 
 list:
     path: /liste
-    controller: App\Controller\MainController::list
+    controller: App\Controller\DiagnoseController::list
 
 upload:
     path: /upload
-    controller: App\Controller\MainController::upload
+    controller: App\Controller\DiagnoseController::upload

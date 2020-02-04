@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste{% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <h3>Liste des diagnostics</h3>
+        <div class="row ">
+            <div class="col-md-12">
+                <ul>
+                    {% for diag in diagnoses %}
+                        <a href="{{ path('list_show', { 'id': diag.id }) }}"><li>{{ diag.patientName }} <img src="{{ diag.image }}" /></li></a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

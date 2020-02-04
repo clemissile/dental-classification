@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Diagnostic{% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <h3>Diagnostic du {{ diag.date }}</h3>
+        <div class="row ">
+            <div class="col-md-12">
+                <ul>
+                    <li>Nom : {{ diag.patientName }}</li>
+                    <li>Age : {{ diag.patientAge }}</li>
+                    <li>Diagnostic : {{ diag.diagnoseType }}</li>
+                    <li>Praticien : {{ diag.dentistName }}</li>
+                    <li>Obs : {{ diag.observations }}</li>
+                </ul>
+                <img src="{{ asset(diag.image) }}">
+            </div>
+        </div>
+    </div>
+{% endblock %}
