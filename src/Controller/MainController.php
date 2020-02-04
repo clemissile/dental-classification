@@ -16,4 +16,20 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
+
+    /**
+     * @Route("/liste", name="liste")
+     */
+    public function list()
+    {
+        return $this->render('main/list.html.twig');
+    }
+
+    /**
+     * @Route("/upload", name="upload")
+     */
+    public function upload()
+    {
+        return $this->render('main/upload.html.twig');
+    }
 }
