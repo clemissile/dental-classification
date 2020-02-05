@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Diagnose;
 use App\Form\DiagnoseType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
@@ -122,6 +123,12 @@ class DiagnoseController extends AbstractController
             );
         }
 
+        // Suppression de la photo associée dans le repertoire upload
+        $filename = $diagnose->getImage();
+        $filesystem = new Filesystem();
+        $filesystem->remove($filename);
+
+        // Suppression en base
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($diagnose);
         $entityManager->flush();
