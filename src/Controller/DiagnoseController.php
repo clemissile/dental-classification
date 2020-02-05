@@ -18,6 +18,7 @@ class DiagnoseController extends AbstractController
 {
     /**
      * @Route("/upload", name="upload")
+     * @throws \Exception
      */
     public function upload(Request $request)
     {
@@ -80,18 +81,13 @@ class DiagnoseController extends AbstractController
     {
         $diagnoses = $this->getDoctrine()
             ->getRepository(Diagnose::class)
-            ->findAll();
+            ->findBy(array(), array('date' => 'DESC'));
 
-        if (!$diagnoses) {
-            throw $this->createNotFoundException(
-                'Nothing found in database'
-            );
-        }
         return $this->render('diagnose/list.html.twig', ['diagnoses' => $diagnoses]);
     }
 
     /**
-     * @Route("/liste/{id}", name="list_show")
+     * @Route("/liste/diag-{id}", name="list_show")
      */
     public function show($id)
     {
@@ -108,6 +104,29 @@ class DiagnoseController extends AbstractController
         return $this->render('diagnose/show.html.twig', [
             'diag' => $diagnose
         ]);
+
+    }
+
+    /**
+     * @Route("/liste/delete-diag-{id}", name="diag_delete")
+     */
+    public function delete($id)
+    {
+        $diagnose = $this->getDoctrine()
+            ->getRepository(Diagnose::class)
+            ->find($id);
+
+        if (!$diagnose) {
+            throw $this->createNotFoundException(
+                'No workout found for id '.$id
+            );
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($diagnose);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('liste');
 
     }
 }

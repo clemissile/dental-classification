@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DiagnoseRepository")
@@ -17,7 +18,7 @@ class Diagnose
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="datetime")
      */
     private $date;
 
@@ -58,12 +59,16 @@ class Diagnose
 
     public function getDate(): ?string
     {
+        if ($this->date !== null) {
+            return $this->date->format('d/m/Y');
+        }
         return $this->date;
+
     }
 
     public function setDate(?string $date): self
     {
-        $this->date = $date;
+        $this->date = \DateTime::createFromFormat('d/m/Y', $date);
 
         return $this;
     }
