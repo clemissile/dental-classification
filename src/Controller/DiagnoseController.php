@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Diagnose;
 use App\Form\DiagnoseType;
+use App\Form\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Routing\Annotation\Route;
@@ -78,13 +79,32 @@ class DiagnoseController extends AbstractController
     /**
      * @Route("/liste", name="liste")
      */
-    public function list()
+    public function list(Request $request)
     {
+        $form = $this->createForm(SearchType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $criteria = $form['search']->getData();
+
+            $diagnoses = $this->getDoctrine()
+                ->getRepository(Diagnose::class)
+                ->searchQuery($criteria);
+
+            return $this->render('diagnose/list.html.twig', [
+                'form' => $form->createView(),
+                'diagnoses' => $diagnoses
+            ]);
+        }
+
         $diagnoses = $this->getDoctrine()
             ->getRepository(Diagnose::class)
             ->findBy(array(), array('date' => 'DESC'));
 
-        return $this->render('diagnose/list.html.twig', ['diagnoses' => $diagnoses]);
+        return $this->render('diagnose/list.html.twig', [
+            'form' => $form->createView(),
+            'diagnoses' => $diagnoses
+        ]);
     }
 
     /**
@@ -136,4 +156,5 @@ class DiagnoseController extends AbstractController
         return $this->redirectToRoute('liste');
 
     }
+
 }

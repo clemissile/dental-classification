@@ -19,22 +19,20 @@ class DiagnoseRepository extends ServiceEntityRepository
         parent::__construct($registry, Diagnose::class);
     }
 
-    // /**
-    //  * @return Diagnose[] Returns an array of Diagnose objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Diagnose[] Returns an array of Diagnose objects
+     */
+    public function searchQuery($value)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
+            ->orWhere('d.diagnoseType LIKE :val')
+            ->orWhere('d.patientName LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->orderBy('d.date', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Diagnose
