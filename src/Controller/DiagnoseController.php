@@ -57,13 +57,12 @@ class DiagnoseController extends AbstractController
                 $diag->setDentistName($form['dentistName']->getData());
                 $diag->setObservations($form['observations']->getData());
 
-                // updates the 'imgFilename' property to store the PDF file name
+                // updates the 'imgFilename' property to store the picture file name
                 // instead of its contents
                 $diag->setImage('upload/'.$newFilename);
             }
 
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
+            // Sauvegarde du diagnostic en base
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($diag);
             $entityManager->flush();
@@ -117,9 +116,7 @@ class DiagnoseController extends AbstractController
             ->find($id);
 
         if (!$diagnose) {
-            throw $this->createNotFoundException(
-                'No workout found for id '.$id
-            );
+            return $this->render('errors/404.html.twig');
         }
 
         return $this->render('diagnose/show.html.twig', [
@@ -138,9 +135,7 @@ class DiagnoseController extends AbstractController
             ->find($id);
 
         if (!$diagnose) {
-            throw $this->createNotFoundException(
-                'No workout found for id '.$id
-            );
+            return $this->render('errors/404.html.twig');
         }
 
         // Suppression de la photo associée dans le repertoire upload
@@ -154,6 +149,70 @@ class DiagnoseController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('liste');
+
+    }
+
+    /**
+     * @Route("/liste/edit-diag-{id}", name="diag_edit")
+     */
+    public function edit($id, Request $request)
+    {
+        $diag = $this->getDoctrine()
+            ->getRepository(Diagnose::class)
+            ->find($id);
+
+        if (!$diag) {
+            return $this->render('errors/404.html.twig');
+        }
+
+        $form = $this->createForm(DiagnoseType::class, $diag);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imgFile = $form['image']->getData();
+
+            // this condition is needed because the 'img' field is not required
+            // so the JPG/PNG file must be processed only when a file is uploaded
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
+
+                // Move the file to the directory where img are stored
+                try {
+                    $imgFile->move(
+                        $this->getParameter('img_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $diag->setDate($form['date']->getData());
+                $diag->setDiagnoseType($form['diagnoseType']->getData());
+                $diag->setPatientName($form['patientName']->getData());
+                $diag->setPatientAge($form['patientAge']->getData());
+                $diag->setDentistName($form['dentistName']->getData());
+                $diag->setObservations($form['observations']->getData());
+
+                // updates the 'imgFilename' property to store the picture file name
+                // instead of its contents
+                $diag->setImage('upload/'.$newFilename);
+            }
+
+            // Sauvegarde du changement en base
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($diag);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('list_show', array('id' => $diag->getId()));
+        }
+
+        return $this->render('diagnose/edit.html.twig', [
+            'form' => $form->createView(),
+            'diag' => $diag
+        ]);
 
     }
 

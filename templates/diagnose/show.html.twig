@@ -43,7 +43,7 @@
         </div>
         <div class="row text-center">
             <div class="col-md-12">
-                <a href="#" class="btn btn-outline-info">Modifier le diagnostic</a>
+                <a href="{{ path('diag_edit', { 'id': diag.id }) }}" class="btn btn-outline-info">Modifier le diagnostic</a>
                 <a href="{{ path('diag_delete', { 'id': diag.id }) }}" class="btn btn-outline-danger">Supprimer le diagnostic</a>
             </div>
         </div>

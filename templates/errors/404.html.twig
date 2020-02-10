@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Oups...{% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <div class="row my-3">
+            <h1>Page introuvable</h1>
+        </div>
+        <div class="row my-3">
+            La page que vous avez demandé est introuvable.
+        </div>
+        <div class="row my-3">
+            <a href="{{ path('index') }}" class="btn btn-outline-primary">Retourner à l'accueil</a>
+        </div>
+    </div>
+{% endblock %}
