@@ -24,6 +24,7 @@ class MainController extends AbstractController
         // On récupère le nombre de diagnostics à catégoriser
         $nbEmptyDiagnoses = $entityManager->nbEmptyDiagnoses();
 
+        // On récupère le nombre de diagnostics par type
         $diagByType = $entityManager->diagnosesByType();
 
         return $this->render('main/index.html.twig', [

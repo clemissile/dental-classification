@@ -33,7 +33,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h1 class="card-title">{{ emptydiag }}</h1>
-                        <h5 class="card-subtitle mb-2 text-muted">Diagnostics à catégoriser</h5>
+                        <h5 class="card-subtitle mb-2 text-muted">À catégoriser</h5>
                     </div>
                 </div>
             </div>
@@ -57,13 +57,14 @@
         diagVal.push({{ diag.nbDiag }});
     {% endfor %}
 
+    // Création du graphique
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: diagLab,
             datasets: [{
-                label: '# types de diagnostic',
+                label: 'Nombre de diagnostics',
                 data: diagVal,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',

@@ -77,6 +77,9 @@ class DiagnoseRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return mixed [] Retourne le nombre de diagnostics par type
+     */
     public function diagnosesByType()
     {
         return $this->createQueryBuilder('d')
@@ -88,16 +91,4 @@ class DiagnoseRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
-    /*
-    public function findOneBySomeField($value): ?Diagnose
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

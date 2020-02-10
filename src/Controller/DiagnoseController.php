@@ -32,22 +32,20 @@ class DiagnoseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form['image']->getData();
 
-            // this condition is needed because the 'img' field is not required
-            // so the JPG/PNG file must be processed only when a file is uploaded
             if ($imgFile) {
                 $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
 
-                // Move the file to the directory where img are stored
+                // Upload l'image dans le bon repertoire
                 try {
                     $imgFile->move(
                         $this->getParameter('img_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    // Si quelque chose arrive pendant l'upload
                 }
 
                 $diag->setDate($form['date']->getData());
@@ -57,8 +55,7 @@ class DiagnoseController extends AbstractController
                 $diag->setDentistName($form['dentistName']->getData());
                 $diag->setObservations($form['observations']->getData());
 
-                // updates the 'imgFilename' property to store the picture file name
-                // instead of its contents
+                // On sauvegarde le nom du nouveau fichier uploadé
                 $diag->setImage('upload/'.$newFilename);
             }
 
@@ -82,6 +79,7 @@ class DiagnoseController extends AbstractController
     {
         $form = $this->createForm(SearchType::class);
 
+        // Si une recherche est demandée
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $criteria = $form['search']->getData();
@@ -96,6 +94,7 @@ class DiagnoseController extends AbstractController
             ]);
         }
 
+        // Tri des diagnostics du plus récent au plus ancien
         $diagnoses = $this->getDoctrine()
             ->getRepository(Diagnose::class)
             ->findBy(array(), array('date' => 'DESC'));
@@ -115,6 +114,7 @@ class DiagnoseController extends AbstractController
             ->getRepository(Diagnose::class)
             ->find($id);
 
+        // Si le diagnostic n'existe pas, on renvoie sur une page d'erreur
         if (!$diagnose) {
             return $this->render('errors/404.html.twig');
         }
@@ -134,6 +134,7 @@ class DiagnoseController extends AbstractController
             ->getRepository(Diagnose::class)
             ->find($id);
 
+        // Si le diagnostic n'existe pas, on renvoie sur une page d'erreur
         if (!$diagnose) {
             return $this->render('errors/404.html.twig');
         }
@@ -161,6 +162,7 @@ class DiagnoseController extends AbstractController
             ->getRepository(Diagnose::class)
             ->find($id);
 
+        // Si le diagnostic n'existe pas, on renvoie sur une page d'erreur
         if (!$diag) {
             return $this->render('errors/404.html.twig');
         }
@@ -171,22 +173,20 @@ class DiagnoseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form['image']->getData();
 
-            // this condition is needed because the 'img' field is not required
-            // so the JPG/PNG file must be processed only when a file is uploaded
             if ($imgFile) {
                 $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
 
-                // Move the file to the directory where img are stored
+                // Upload l'image dans le bon repertoire
                 try {
                     $imgFile->move(
                         $this->getParameter('img_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    // Si quelque chose arrive pendant l'upload
                 }
 
                 $diag->setDate($form['date']->getData());
@@ -196,8 +196,7 @@ class DiagnoseController extends AbstractController
                 $diag->setDentistName($form['dentistName']->getData());
                 $diag->setObservations($form['observations']->getData());
 
-                // updates the 'imgFilename' property to store the picture file name
-                // instead of its contents
+                // On sauvegarde le nom du nouveau fichier uploadé
                 $diag->setImage('upload/'.$newFilename);
             }
 
