@@ -9,3 +9,7 @@ list:
 upload:
     path: /upload
     controller: App\Controller\DiagnoseController::upload
+
+apropos:
+    path: /a-propos
+    controller: App\Controller\MainController::apropos

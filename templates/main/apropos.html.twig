@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos{% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <h1>À propos</h1>
+
+        <div class="row my-5">
+            <div class="col-md-4">
+                <h3><i class="fa fa-briefcase" aria-hidden="true"></i></h3>
+                <h3>Projet</h3>
+                <p>
+                    Ce projet a été réalisé dans le cadre de notre cursus universitaire.
+                </p>
+                <p>
+                    Le but de ce dernier est de créer une interface web permettant de gérer des diagnostics dentaires. Un
+                    praticien peut ajouter des diagnostics, les modifier ou même les supprimer. Il peut également
+                    recherche des diagnostics via le nom du patient ou le type de diagnostic.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h3><i class="fa fa-users" aria-hidden="true"></i></h3>
+                <h3>Développeurs</h3>
+                <p>
+                    GANIVET Clément (21402554)
+                </p>
+                <p>
+                    JACQUIER Yohann (21608729)
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h3><i class="fa fa-terminal" aria-hidden="true"></i></h3>
+                <h3>Technologies</h3>
+                <p class="my-4">
+                    <img class="card-img" src="{{ asset('img/symfony.png') }}" alt="symfony" style="width: 150px;">
+                </p>
+                <p class="my-4">
+                    <img class="card-img" src="{{ asset('img/bootstrap.png') }}" alt="bootstrap" style="width: 75px;">
+                </p>
+                <p class="my-4">
+                    <img class="card-img" src="{{ asset('img/mysql.png') }}" alt="mysql" style="width: 150px;">
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

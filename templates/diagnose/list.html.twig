@@ -54,6 +54,11 @@
 
         <!-- Résultats de la recherche (par défaut, tout triés par date) -->
         <div class="row my-3">
+            {% if diagnoses is empty %}
+                <div class="col-md-12">
+                    Aucun diagnostic trouvé !
+                </div>
+            {% endif %}
             {% for diag in diagnoses %}
                 <div class="col-md-3 mb-3">
                         <div class="card">
