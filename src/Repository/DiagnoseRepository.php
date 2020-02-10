@@ -20,7 +20,7 @@ class DiagnoseRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Diagnose[] Returns an array of Diagnose objects
+     * @return Diagnose[] Retourne un tableau d'objets Diagnose
      */
     public function searchQuery($value)
     {
@@ -32,6 +32,61 @@ class DiagnoseRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    /**
+     * @return int Retourne le nombre de diagnostics stockés jusqu'ici
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function totalDiagnoses()
+    {
+        return $this->createQueryBuilder('d')
+                    ->select('count(d.id)')
+                    ->getQuery()
+                    ->getSingleScalarResult()
+            ;
+    }
+
+    /**
+     * @return int Retourne l'âge moyen des patients
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function avgPatientAge()
+    {
+        return $this->createQueryBuilder('d')
+            ->select('avg(d.patientAge)')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
+    /**
+     * @return int Retourne le nombre de diagnostics sans type défini
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function nbEmptyDiagnoses()
+    {
+        return $this->createQueryBuilder('d')
+            ->select('count(d.id)')
+            ->where('d.diagnoseType IS NULL')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
+    public function diagnosesByType()
+    {
+        return $this->createQueryBuilder('d')
+            ->select('d.diagnoseType')
+            ->addSelect('count(d.diagnoseType) as nbDiag')
+            ->groupBy('d.diagnoseType')
+            ->orderBy('nbDiag', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
     /*
